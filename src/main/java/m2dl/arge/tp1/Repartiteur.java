@@ -39,8 +39,11 @@ public class Repartiteur {
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		
-		phm.load(classLoader, getClass().getClassLoader().getResource("XmlRpcServlet.properties"));
-
+		phm.load(Thread.currentThread().getContextClassLoader(), getClass().getClassLoader().getResource("resources/XmlRpcServlet.properties"));
+		//phm.load(Thread.currentThread().getContextClassLoader(),
+			//	"XmlRpcServlet.properties");
+		
+		
 		phm.addHandler("Redirect",Redirect.class);
 
 		xmlRpcServer.setHandlerMapping(phm);
@@ -50,7 +53,7 @@ public class Repartiteur {
 		serverConfig.setEnabledForExtensions(true);
 		serverConfig.setContentLengthOptional(false);
 
-		ResourceBundle bundle = ResourceBundle.getBundle("config");
+		ResourceBundle bundle = ResourceBundle.getBundle("resources/config");
 		
 
 		
@@ -59,6 +62,13 @@ public class Repartiteur {
 				.credentials("ens6","FS0EJP")
 				.tenantName("service")
 				.authenticate();
+		try {
+			System.out.println("Connecting to CloudMip");
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		
 		// Lance une première VM avec un calculateur
 		try {
